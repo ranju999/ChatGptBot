@@ -112,7 +112,7 @@ async def gpt(client, message):
         ],
     }
     
-    response = await mango.chat.completions.create(
+    response = mango.chat.completions.create(
         model=user_data["chat"], 
         messages=payload
     )
