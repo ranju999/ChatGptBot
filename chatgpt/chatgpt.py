@@ -1,5 +1,5 @@
 from pymongo import MongoClient  
-from pyrogram import Client, filters
+from pyrogram import Client, filters, enums
 from pyrogram.types import *
 from HorridAPI import Mango
 from config import DATABASE_URL
@@ -40,7 +40,7 @@ async def callback(client, query):
         elif mode == "assistant":
             custom = "You are a helpfull assistant"
         elif mode == "dev":
-            custom = "You are a pro developer, You are help in coding, You are a pro in coding, You like assist in coding, You clear doubts in coding, You are a helpfull assistant in coding"
+            custom = "You are a pro Developer, You are help in coding, You are a pro in coding, You like assist in coding, You clear doubts in coding, You are a helpfull assistant in coding"
         elif mode == "naru":
             custom = "You are Naruto, You from Naruto Anime, You make emoji in response, You are shiboni blood and 7th hokage, You wifi is hinata, Minato sell Nine tail in Yours, You are a Nine tail hoster"
         elif mode == "ElonMusk":
@@ -66,7 +66,7 @@ async def settings(client, message):
         [InlineKeyboardButton("Gpt-4o-mini", callback_data="set:gpt-4o-mini")]        
     ]
     reply_markup = InlineKeyboardMarkup(btns)
-    await message.reply_text("choose:", reply_markup=reply_markup)
+    await message.reply_text("Select your Ai model:", reply_markup=reply_markup)
 
 @Client.on_message(filters.command("mode") & filters.private)
 async def mode(client, message):    
@@ -74,7 +74,7 @@ async def mode(client, message):
         [InlineKeyboardButton("🧑‍🎤 Albert Einstein", callback_data="mode:AlbertEinstein")],
         [InlineKeyboardButton("🪄 Assistant", callback_data="mode:assistant")],
         [InlineKeyboardButton("🚀 Elon Musk", callback_data="mode:ElonMusk")],       
-        [InlineKeyboardButton("👨‍💻 Devloper", callback_data="mode:dev")],
+        [InlineKeyboardButton("👨‍💻 Developer", callback_data="mode:dev")],
         [InlineKeyboardButton("👨‍🎤 Naruto", callback_data="mode:naru")],
         [InlineKeyboardButton("🗡️ Tanjiro", callback_data="mode:Tanjiro")]
     ]
@@ -83,6 +83,7 @@ async def mode(client, message):
     
 @Client.on_message(filters.private)  
 async def gpt(client, message):
+    await client.send_chat_action(message.chat.id, enums.ChatAction.TYPING)
     user_id = message.from_user.id
     if not users.find_one({"user": user_id}):
         users.insert_one({"user": user_id, "mode": "assistant", "chat": "gpt-3.5"})
@@ -98,20 +99,14 @@ async def gpt(client, message):
         prompt = f"Old conversation: {l.text}\n\nNew conversation: {message.text}"
     else:
         prompt = message.text
-
-    payload = {  
-        "messages": [
-            { 
-                "role": "system",
-                "content": user_data["mode"]
-            }, 
-            {
-                "role": "user", 
-                "content": prompt  
-            }
-        ],
-    }
-    
+    if user_data["mode"] == "assistant":  
+        payload = [{"role": "user", "content": prompt}]
+    else:
+        payload = [
+            {"role": "system", "content": user_data['mode']},  
+            {"role": "user", "content": prompt}                   
+        ]
+        
     response = mango.chat.completions.create(
         model=user_data["chat"], 
         messages=payload
