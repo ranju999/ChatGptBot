@@ -75,7 +75,7 @@ async def gpt(client, message):
     user_data = users.find_one({"user": user_id})
         
     if user_data is None:
-        await message.reply_text("Error: Please try again in a few seconds.")
+        await message.reply_text("Error: Please try again in few seconds.")
         return    
 
     l = message.reply_to_message   
