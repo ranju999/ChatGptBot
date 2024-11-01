@@ -12,7 +12,7 @@ mango = Mango()
 
 START = """👋 Hey there! I’m an Advanced ChatGPT Bot.
 
-*"✨ Commands you can use:**
+**"✨ Commands you can use:**
 
 - **/mode** - Add your preferred mode.
 - **/settings** - Change the AI model or add your favorite AI.
