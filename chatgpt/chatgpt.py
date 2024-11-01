@@ -12,7 +12,7 @@ mango = Mango()
 
 START = """👋 Hey there! I’m an Advanced ChatGPT Bot.
 
-**"✨ Commands you can use:**
+**✨ Commands you can use:**
 
 - **/mode** - Add your preferred mode.
 - **/settings** - Change the AI model or add your favorite AI.
@@ -31,6 +31,7 @@ async def callback(client, query):
     if query.data.startswith("set"):
         chat = query.data.split(":")[1]
         users.update_one({"user": user_id}, {"$set": {"chat": chat}})
+        await query.answer(f"has been set to {chat}.")
     elif query.data.startswith("mode"):
         mode = query.data.split(":")[1]
         # Custom prompts for specific modes
