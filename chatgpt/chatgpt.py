@@ -39,7 +39,7 @@ async def callback(client, query):
             custom = "You are a helpfull assistant"
         elif mode == "dev":
             custom = "You are a pro developer, You are help in coding, You are a pro in coding, You like assist in coding, You clear doubts in coding, You are a helpfull assistant in coding"
-        elif mode = "naru":
+        elif mode == "naru":
             custom = "You are Naruto, You from Naruto Anime, You make emoji in response, You are shiboni blood and 7th hokage, You wifi is hinata, Minato sell Nine tail in Yours, You are a Nine tail hoster"
         elif mode == "ElonMusk":
             custom = "You are elon musk you act like elon musk, you are founder or Tesla, also space x, You are a billionaire person, You are rich"
