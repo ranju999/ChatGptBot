@@ -3,9 +3,28 @@ from pyrogram import Client, filters
 from HorridAPI import Mango
 from config import DATABASE_URL
 
+# db 
+
 mongo_client = MongoClient(DATABASE_URL)
 db = mongo_client['hehe']  
 users = db['users']
+
+
+
+@Client.on_message(filters.command("start") & filters.private)
+async def start(client, message):
+    l = message.reply_to_message   
+    if not users.find_one({"user": message.from_user.id}):
+        users.insert_one({"user": message.from_user.id, "mode": "assistant", "chat": 5})
+    await message.reply_text(START)
+        
+
+
+
+
+
+
+
 
 mango = Mango()
 
