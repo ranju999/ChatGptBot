@@ -27,7 +27,10 @@ Feel free to ask me anything for free!
 @Client.on_callback_query()
 async def callback(client, query):
     user_id = query.from_user.id
-    if query.data.startswith("mode:"):
+    if query.data.startswith("set"):
+        chat = query.data.split(":")[1]
+        users.update_one({"user": user_id}, {"$set": {"chat": chat}})
+    elif query.data.startswith("mode"):
         mode = query.data.split(":")[1]
         # Custom prompts for specific modes
         if mode == "Tanjiro":
@@ -49,12 +52,22 @@ async def callback(client, query):
 async def start(client, message):
     user_id = message.from_user.id
     if not users.find_one({"user": user_id}):
-        users.insert_one({"user": user_id, "mode": "assistant", "chat": "gpt-3.5-turbo"})
+        users.insert_one({"user": user_id, "mode": "assistant", "chat": "gpt-3.5"})
     await message.reply_text(START)        
 
-@Client.on_message(filters.command("mode") & filters.private)
-async def mode_command(client, message):
+@Client.on_message(filters.command("settings") & filters.private)
+async def settings(client, message):
     user_id = message.from_user.id
+    btns = [
+        [InlineKeyboardButton("Gpt-3.5", callback_data="set:gpt-3.5")],
+        [InlineKeyboardButton("Llama", callback_data="set:llama3-70b")],
+        [InlineKeyboardButton("Gpt-4o-mini", callback_data="set:gpt-4o-mini")]        
+    ]
+    reply_markup = InlineKeyboardMarkup(btns)
+    await message.reply_text("choose:", reply_markup=reply_markup)
+
+@Client.on_message(filters.command("mode") & filters.private)
+async def mode(client, message):    
     btns = [
         [InlineKeyboardButton("🧑‍🎤 Albert Einstein", callback_data="mode:AlbertEinstein")],
         [InlineKeyboardButton("🪄 Assistant", callback_data="mode:assistant")],
@@ -65,12 +78,12 @@ async def mode_command(client, message):
     ]
     reply_markup = InlineKeyboardMarkup(btns)
     await message.reply_text("Please choose a mode:", reply_markup=reply_markup)
-
+    
 @Client.on_message(filters.private)  
 async def gpt(client, message):
     user_id = message.from_user.id
     if not users.find_one({"user": user_id}):
-        users.insert_one({"user": user_id, "mode": "assistant", "chat": "gpt-3.5-turbo"})
+        users.insert_one({"user": user_id, "mode": "assistant", "chat": "gpt-3.5"})
 
     user_data = users.find_one({"user": user_id})
         
