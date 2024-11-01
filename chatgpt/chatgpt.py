@@ -1,5 +1,6 @@
 from pymongo import MongoClient  
-from pyrogram import Client, filters, InlineKeyboardButton, InlineKeyboardMarkup
+from pyrogram import Client, filters
+from pyrogram.types import *
 from HorridAPI import Mango
 from config import DATABASE_URL
 
