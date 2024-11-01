@@ -1,6 +1,7 @@
-from pymongo import MongoClient  # Make sure to import MongoClient
+from pymongo import MongoClient  
 from pyrogram import Client, filters
 from HorridAPI import Mango
+from config import DATABASE_URL
 
 mongo_client = MongoClient(DATABASE_URL)
 db = mongo_client['hehe']  
@@ -12,17 +13,13 @@ mango = Mango()
 async def gpt(client, message):
     l = message.reply_to_message   
     if not users.find_one({"user": message.from_user.id}):
-        users.insert_one({"user": message.from_user.id, "token": 1600, "plan": "free", "mode": "assistant", "chat": 5})
+        users.insert_one({"user": message.from_user.id, "mode": "assistant", "chat": 5})
         
     k = users.find_one({"user": message.from_user.id})
         
     if k is None:
-        await message.reply_text("User  not found in the database.")
-        return
-
-    if k["token"] < 100:
-        await message.reply_text("You don't have enough Tokens, use /plan to buy your budget and enjoy")
-        return
+        await message.reply_text("Error: Please Try few seconds.")
+        return    
 
     if l:
         prompt = f"Old conversation: {l.text}\n\n New conversation: {message.text}"
@@ -42,7 +39,8 @@ async def gpt(client, message):
         ],
     }
     
-    response = await mango.chat.completions.create(model=k["chat"], messages=payload)
-       
-    H = response.text
-    await message.reply_text(H)
+    response = await mango.chat.completions.create(
+        model=k["chat"], 
+        messages=payload
+    )           
+    await message.reply_text(response.text)
