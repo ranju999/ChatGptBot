@@ -1,5 +1,5 @@
 pyrotgfork 
 tgcrypto
-requests
 aiohttp
 HorridAPI
+pymongo
