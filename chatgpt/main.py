@@ -1,12 +1,6 @@
-from pymongo import MongoClient  
 from pyrogram import Client, filters, enums
 from pyrogram.types import *
 from HorridAPI import Mango
-from config import DATABASE_URL
-
-mongo_client = MongoClient(DATABASE_URL)
-db = mongo_client['hehe']  
-users = db['users']
 
 mango = Mango()
 
