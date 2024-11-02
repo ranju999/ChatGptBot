@@ -17,7 +17,7 @@ async def create_paste(paste_content):
                 return f"❌ Something went Wrong in dpaste API Status code: {str(response.status)}"
             else:
                 if response.content_type == 'text/html':                   
-                    text = await response.text()
+                    text = json.loads(await response.text())
                     return text
                 elif response.content_type == 'application/json':
                     data = await response.json()
