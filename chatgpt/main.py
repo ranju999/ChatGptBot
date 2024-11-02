@@ -7,8 +7,30 @@ from database.db import *
 @Client.on_message(filters.command("stats") & filters.user(ADMINS))
 async def stats(c, m):
     k = users.count_documents({})
-    await message.reply_text(f"**Total user**: {k}")
+    await m.reply_text(f"**Total user**: {k}")
 
+
+@Client.on_message(filters.command("broadcast") & filters.reply)
+async def broadcast(client, message):
+    try:        
+        users = users.find()  
+        broadcast_msg = message.reply_to_message
+
+        total_broadcast_count = 0
+        failed_count = 0
+
+        for user in users:
+            try:              
+                await broadcast_msg.copy(chat_id=user["user"])
+                total_broadcast_count += 1
+            except Exception as e:
+                print(f"Failed to send message to {user}: {str(e)}")
+                failed_count += 1
+
+        await message.reply(f"Broadcast complete! Sent to {total_broadcast_count} users. Failed to send to {failed_count} users.")
+
+    except Exception as e:
+        await message.reply(f"Error: {str(e)}")
 
 mango = Mango()
 
