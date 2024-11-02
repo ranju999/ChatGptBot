@@ -1,8 +1,9 @@
 from pyrogram import Client, filters, enums
 from pyrogram.types import *
 from HorridAPI import Mango
-from config import ADMINS, LOG_CHANNEL
+from config import ADMINS, LOG_CHANNEL, FSUB_ID
 from database.db import *
+from .fsubb import not_subscribed
 
 @Client.on_message(filters.command("stats") & filters.user(ADMINS))
 async def stats(c, m):
@@ -76,6 +77,12 @@ async def callback(client, query):
 
 @Client.on_message(filters.command("start") & filters.private)
 async def start(client, message):
+    if FSUB_ID and not await not_subscribed(client, message):
+        invite_link = await client.create_chat_invite_link(int(FSUB_ID))
+        buttons = [[InlineKeyboardButton(text="ᴊᴏɪɴ ᴄʜᴀɴɴᴇʟ ", url=invite_link)]]
+        text = f"Hey {message.from_user.mention}\n You are not joined this channel"
+        await message.reply_text(text=text, reply_markup=InlineKeyboardMarkup(buttons))
+        return 
     user_id = message.from_user.id
     if not users.find_one({"user": user_id}):
         users.insert_one({"user": user_id, "mode": "assistant", "chat": "gpt-3.5"})
@@ -84,6 +91,12 @@ async def start(client, message):
 
 @Client.on_message(filters.command("settings") & filters.private)
 async def settings(client, message):
+    if FSUB_ID and not await not_subscribed(client, message):
+        invite_link = await client.create_chat_invite_link(int(FSUB_ID))
+        buttons = [[InlineKeyboardButton(text="ᴊᴏɪɴ ᴄʜᴀɴɴᴇʟ ", url=invite_link)]]
+        text = f"Hey {message.from_user.mention}\n You are not joined this channel"
+        await message.reply_text(text=text, reply_markup=InlineKeyboardMarkup(buttons))
+        return 
     user_id = message.from_user.id
     btns = [
         [InlineKeyboardButton("Gpt-3.5", callback_data="set:gpt-3.5")],
@@ -95,6 +108,12 @@ async def settings(client, message):
 
 @Client.on_message(filters.command("mode") & filters.private)
 async def mode(client, message):    
+    if FSUB_ID and not await not_subscribed(client, message):
+        invite_link = await client.create_chat_invite_link(int(FSUB_ID))
+        buttons = [[InlineKeyboardButton(text="ᴊᴏɪɴ ᴄʜᴀɴɴᴇʟ ", url=invite_link)]]
+        text = f"Hey {message.from_user.mention}\n You are not joined this channel"
+        await message.reply_text(text=text, reply_markup=InlineKeyboardMarkup(buttons))
+        return 
     btns = [
         [InlineKeyboardButton("🧑‍🎤 Albert Einstein", callback_data="mode:AlbertEinstein")],
         [InlineKeyboardButton("🪄 Assistant", callback_data="mode:assistant")],
@@ -108,6 +127,12 @@ async def mode(client, message):
 
 @Client.on_message()
 async def chats(client, message):    
+    if FSUB_ID and not await not_subscribed(client, message):
+        invite_link = await client.create_chat_invite_link(int(FSUB_ID))
+        buttons = [[InlineKeyboardButton(text="ᴊᴏɪɴ ᴄʜᴀɴɴᴇʟ ", url=invite_link)]]
+        text = f"Hey {message.from_user.mention}\n You are not joined this channel"
+        await message.reply_text(text=text, reply_markup=InlineKeyboardMarkup(buttons))
+        return 
     if message.text.startswith(f"@{client.me.username}"):
         await client.send_chat_action(message.chat.id, enums.ChatAction.TYPING)
         user_id = message.from_user.id    
