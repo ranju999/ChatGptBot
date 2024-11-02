@@ -13,13 +13,13 @@ async def stats(c, m):
 @Client.on_message(filters.command("broadcast") & filters.reply)
 async def broadcast(client, message):
     try:        
-        users = users.find()  
+        userr = users.find()  
         broadcast_msg = message.reply_to_message
 
         total_broadcast_count = 0
         failed_count = 0
 
-        for user in users:
+        for user in userr:
             try:              
                 await broadcast_msg.copy(chat_id=user["user"])
                 total_broadcast_count += 1
