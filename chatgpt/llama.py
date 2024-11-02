@@ -13,4 +13,5 @@ async def llama(client, message):
     if len(ai) > 3700:
         result = await create_paste(paste_content)
         await message.reply_text(result["url"])
-    await message.reply_text(ai)
+    else:
+        await message.reply_text(ai)
