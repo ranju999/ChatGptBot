@@ -29,6 +29,6 @@ async def mango_chat(client, message):
     )
     if len(response.text) > 3700:        
         result = await create_paste(response.text)  
-        await msg.edit(result["url"])       
+        await msg.edit(result)       
     else:
         await msg.edit(response.text)
