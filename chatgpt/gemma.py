@@ -16,7 +16,11 @@ async def gemma_chat(client, message):
     if len(message.command) < 2:
         return await message.reply_text("Please provide the query")
         
-    query = " ".join(message.command[1:])
+    reply = message.reply_to_message    
+    if reply:
+        query = f"Old conversation: {l.text}\n\nNew conversation: {message.text}"
+    else:
+        query = " ".join(message.command[1:])
     msg = await message.reply_text("🔍")
     mango = Mango()
     response = mango.chat.completions.create(
