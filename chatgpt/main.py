@@ -111,9 +111,9 @@ async def chats(client, message):
         )
         await message.reply_text(response.text)
         return 
-    if message.chat.type != enums.ChatType.PRIVATE:
-        await client.send_chat_action(message.chat.id, enums.ChatAction.TYPING)
-        if message.reply_to_message.from_user.id != client.me.id:            
+    if message.chat.type != enums.ChatType.PRIVATE:        
+        if message.reply_to_message.from_user.id != client.me.id:  
+            await client.send_chat_action(message.chat.id, enums.ChatAction.TYPING)
             user_id = message.from_user.id    
             user_data = users.find_one({"user": user_id})        
             if user_data is None:
