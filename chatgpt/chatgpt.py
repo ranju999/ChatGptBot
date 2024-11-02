@@ -80,10 +80,39 @@ async def mode(client, message):
     ]
     reply_markup = InlineKeyboardMarkup(btns)
     await message.reply_text("Please choose a mode:", reply_markup=reply_markup)
-    
-@Client.on_message(filters.private)  
+
+
+@Client.on_message()
 async def gpt(client, message):
     await client.send_chat_action(message.chat.id, enums.ChatAction.TYPING)
+    if message.chat.type != enums.ChatType.PRIVATE:
+        if not message.reply_to_message or message.reply_to_message.from_user.id != client.me.id:
+            return 
+
+    user_id = message.from_user.id    
+    user_data = users.find_one({"user": user_id})        
+    if user_data is None:
+        await message.reply_text("You are not started me. So please start me.")
+        return    
+
+    l = message.reply_to_message     
+    prompt = f"Old conversation: {l.text}\n\nNew conversation: {message.text}"
+    
+    if user_data["mode"] == "assistant":  
+        payload = [{"role": "user", "content": prompt}]
+    else:
+        payload = [
+            {"role": "system", "content": user_data['mode']},  
+            {"role": "user", "content": prompt}                   
+        ]
+        
+    response = mango.chat.completions.create(
+        model=user_data["chat"], 
+        messages=payload
+    )
+    await message.reply_text(response.text)
+    return 
+   
     user_id = message.from_user.id
     if not users.find_one({"user": user_id}):
         users.insert_one({"user": user_id, "mode": "assistant", "chat": "gpt-3.5"})
