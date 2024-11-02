@@ -7,6 +7,12 @@ from HorridAPI import Mango
 
 @Client.on_message(filters.command(["gpt", "mango"]))
 async def mango_chat(client, message):
+    if FSUB_ID and not await not_subscribed(client, message):
+        invite_link = await client.create_chat_invite_link(int(FSUB_ID))
+        buttons = [[InlineKeyboardButton(text="ᴊᴏɪɴ ᴄʜᴀɴɴᴇʟ ", url=invite_link)]]
+        text = f"Hey {message.from_user.mention}\n You are not joined this channel"
+        await message.reply_text(text=text, reply_markup=InlineKeyboardMarkup(buttons))
+        return 
     if len(message.command) < 2:
         return await message.reply_text("Please provide the query")
         
