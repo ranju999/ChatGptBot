@@ -136,7 +136,7 @@ async def chats(client, message):
                 messages=payload
             )
             await message.reply_text(response.text)
-    else:
+    if message.chat.type == enums.ChatType.PRIVATE:
         await client.send_chat_action(message.chat.id, enums.ChatAction.TYPING)
         user_id = message.from_user.id
         if not users.find_one({"user": user_id}):
