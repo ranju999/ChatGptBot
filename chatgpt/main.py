@@ -79,7 +79,7 @@ async def callback(client, query):
 async def start(client, message):
     if FSUB_ID and not await not_subscribed(client, message):
         invite_link = await client.create_chat_invite_link(int(FSUB_ID))
-        buttons = [[InlineKeyboardButton(text="ᴊᴏɪɴ ᴄʜᴀɴɴᴇʟ ", url=invite_link)]]
+        buttons = [[InlineKeyboardButton(text="ᴊᴏɪɴ ᴄʜᴀɴɴᴇʟ ", url=invite_link.invite_link)]]
         text = f"Hey {message.from_user.mention}\n You are not joined this channel"
         await message.reply_text(text=text, reply_markup=InlineKeyboardMarkup(buttons))
         return 
@@ -93,7 +93,7 @@ async def start(client, message):
 async def settings(client, message):
     if FSUB_ID and not await not_subscribed(client, message):
         invite_link = await client.create_chat_invite_link(int(FSUB_ID))
-        buttons = [[InlineKeyboardButton(text="ᴊᴏɪɴ ᴄʜᴀɴɴᴇʟ ", url=invite_link)]]
+        buttons = [[InlineKeyboardButton(text="ᴊᴏɪɴ ᴄʜᴀɴɴᴇʟ ", url=invite_link.invite_link)]]
         text = f"Hey {message.from_user.mention}\n You are not joined this channel"
         await message.reply_text(text=text, reply_markup=InlineKeyboardMarkup(buttons))
         return 
@@ -111,7 +111,7 @@ async def settings(client, message):
 async def mode(client, message):    
     if FSUB_ID and not await not_subscribed(client, message):
         invite_link = await client.create_chat_invite_link(int(FSUB_ID))
-        buttons = [[InlineKeyboardButton(text="ᴊᴏɪɴ ᴄʜᴀɴɴᴇʟ ", url=invite_link)]]
+        buttons = [[InlineKeyboardButton(text="ᴊᴏɪɴ ᴄʜᴀɴɴᴇʟ ", url=invite_link.invite_link)]]
         text = f"Hey {message.from_user.mention}\n You are not joined this channel"
         await message.reply_text(text=text, reply_markup=InlineKeyboardMarkup(buttons))
         return 
@@ -130,7 +130,7 @@ async def mode(client, message):
 async def chats(client, message):    
     if FSUB_ID and not await not_subscribed(client, message):
         invite_link = await client.create_chat_invite_link(int(FSUB_ID))
-        buttons = [[InlineKeyboardButton(text="ᴊᴏɪɴ ᴄʜᴀɴɴᴇʟ ", url=invite_link)]]
+        buttons = [[InlineKeyboardButton(text="ᴊᴏɪɴ ᴄʜᴀɴɴᴇʟ ", url=invite_link.invite_link)]]
         text = f"Hey {message.from_user.mention}\n You are not joined this channel"
         await message.reply_text(text=text, reply_markup=InlineKeyboardMarkup(buttons))
         return 
