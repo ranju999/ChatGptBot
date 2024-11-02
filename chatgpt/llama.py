@@ -3,7 +3,7 @@ from HorridAPI import api
 from .paste import create_paste
 
 @Client.on_message(filters.command("llama"))
-async def llama(client, message):
+async def llamachat(client, message):
     if len(message.command) < 2:
         await message.reply("Please provide the query")
         return 
