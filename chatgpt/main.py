@@ -10,8 +10,7 @@ async def stats(c, m):
     k = users.count_documents({})
     await m.reply_text(f"**Total user**: {k}")
 
-
-@Client.on_message(filters.command("broadcast") & filters.reply)
+@Client.on_message(filters.command("broadcast") & filters.reply & filters.private & filters.user(ADMINS))
 async def broadcast(client, message):
     try:        
         userr = users.find()  
