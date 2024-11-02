@@ -81,10 +81,9 @@ async def mode(client, message):
     reply_markup = InlineKeyboardMarkup(btns)
     await message.reply_text("Please choose a mode:", reply_markup=reply_markup)
 
-
 @Client.on_message()
 async def chats(client, message):    
-    if message.text == client.me.username:
+    if message.text.startswith(f"@{client.me.username}"):
         await client.send_chat_action(message.chat.id, enums.ChatAction.TYPING)
         user_id = message.from_user.id    
         user_data = users.find_one({"user": user_id})        
@@ -137,34 +136,33 @@ async def chats(client, message):
                 messages=payload
             )
             await message.reply_text(response.text)
-            return 
-
-    await client.send_chat_action(message.chat.id, enums.ChatAction.TYPING)
-    user_id = message.from_user.id
-    if not users.find_one({"user": user_id}):
-        users.insert_one({"user": user_id, "mode": "assistant", "chat": "gpt-3.5"})
-
-    user_data = users.find_one({"user": user_id})
-        
-    if user_data is None:
-        await message.reply_text("Error: Please try again in few seconds.")
-        return    
-
-    l = message.reply_to_message   
-    if l:
-        prompt = f"Old conversation: {l.text}\n\nNew conversation: {message.text}"
     else:
-        prompt = message.text
-    if user_data["mode"] == "assistant":  
-        payload = [{"role": "user", "content": prompt}]
-    else:
-        payload = [
-            {"role": "system", "content": user_data['mode']},  
-            {"role": "user", "content": prompt}                   
-        ]
+        await client.send_chat_action(message.chat.id, enums.ChatAction.TYPING)
+        user_id = message.from_user.id
+        if not users.find_one({"user": user_id}):
+            users.insert_one({"user": user_id, "mode": "assistant", "chat": "gpt-3.5"})
+
+        user_data = users.find_one({"user": user_id})
         
-    response = mango.chat.completions.create(
-        model=user_data["chat"], 
-        messages=payload
-    )
-    await message.reply_text(response.text)
+        if user_data is None:
+            await message.reply_text("Error: Please try again in few seconds.")
+            return    
+
+        l = message.reply_to_message   
+        if l:
+            prompt = f"Old conversation: {l.text}\n\nNew conversation: {message.text}"
+        else:
+            prompt = message.text
+        if user_data["mode"] == "assistant":  
+            payload = [{"role": "user", "content": prompt}]
+        else:
+            payload = [
+                {"role": "system", "content": user_data['mode']},  
+                {"role": "user", "content": prompt}                   
+            ]
+        
+        response = mango.chat.completions.create(
+            model=user_data["chat"], 
+            messages=payload
+        )
+        await message.reply_text(response.text)
