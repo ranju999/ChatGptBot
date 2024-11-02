@@ -1,7 +1,7 @@
 from pyrogram import Client, filters, enums
 from pyrogram.types import *
 from HorridAPI import Mango
-from config import ADMINS
+from config import ADMINS, LOG_CHANNEL
 from database.db import *
 
 @Client.on_message(filters.command("stats") & filters.user(ADMINS))
@@ -79,6 +79,7 @@ async def start(client, message):
     user_id = message.from_user.id
     if not users.find_one({"user": user_id}):
         users.insert_one({"user": user_id, "mode": "assistant", "chat": "gpt-3.5"})
+        await client.send_message(chat_id=LOG_CHANNEL, text=f"#Newuser\nName: {message.from_user.mention}")
     await message.reply_text(START)        
 
 @Client.on_message(filters.command("settings") & filters.private)
