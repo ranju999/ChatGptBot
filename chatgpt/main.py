@@ -101,7 +101,8 @@ async def settings(client, message):
     btns = [
         [InlineKeyboardButton("Gpt-3.5", callback_data="set:gpt-3.5")],
         [InlineKeyboardButton("Llama", callback_data="set:llama3-70b")],
-        [InlineKeyboardButton("Gpt-4o-mini", callback_data="set:gpt-4o-mini")]        
+        [InlineKeyboardButton("Gpt-4o-mini", callback_data="set:gpt-4o-mini")],
+        [InlineKeyboardButton("Gemma-2", callback_data="set:gemma-2")]
     ]
     reply_markup = InlineKeyboardMarkup(btns)
     await message.reply_text("Select your Ai model:", reply_markup=reply_markup)
