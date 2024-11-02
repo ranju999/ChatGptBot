@@ -1,6 +1,14 @@
 from pyrogram import Client, filters, enums
 from pyrogram.types import *
 from HorridAPI import Mango
+from config import ADMINS
+from database.db import *
+
+@Client.on_message(filters.command("stats") & filters.user(ADMINS))
+async def stats(c, m):
+    k = users.count_documents({})
+    await message.reply_text(f"**Total user**: {k}")
+
 
 mango = Mango()
 
