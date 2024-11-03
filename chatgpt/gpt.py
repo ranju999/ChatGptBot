@@ -31,4 +31,4 @@ async def mango_chat(client, message):
         result = await create_paste(response.text)  
         await msg.edit(result)       
     else:
-        await msg.edit(response.choices[0].message.content)
+        await msg.edit(response.text)
