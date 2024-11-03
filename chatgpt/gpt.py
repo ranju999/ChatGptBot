@@ -25,6 +25,7 @@ async def mango_chat(client, message):
     mango = Mango()
     response = mango.chat.completions.create(
         model="gpt-3.5",
+        stream=True,
         messages=[{"role": "user", "content": query}]
     )
     if len(response.text) > 3700:        
