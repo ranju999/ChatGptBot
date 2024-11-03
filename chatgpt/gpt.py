@@ -24,12 +24,11 @@ async def mango_chat(client, message):
     msg = await message.reply_text("🔍")
     mango = Mango()
     response = mango.chat.completions.create(
-        model="gpt-3.5",
-        stream=True,
+        model="gpt-3.5",      
         messages=[{"role": "user", "content": query}]
     )
     if len(response.text) > 3700:        
         result = await create_paste(response.text)  
         await msg.edit(result)       
     else:
-        await msg.edit(response.text)
+        await msg.edit(response.choices[0].message.content)
