@@ -16,8 +16,3 @@ async def blackbox(client, message):
     )
 
     await k.edit(response.text)
-
-
-
-
-
