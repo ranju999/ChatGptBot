@@ -137,7 +137,7 @@ async def chats(client, message):
         text = f"Hey {message.from_user.mention}\n You are not joined this channel"
         await message.reply_text(text=text, reply_markup=InlineKeyboardMarkup(buttons))
         return 
-    if message.text.startswith(f"@{client.me.username}"):
+    if f"@{client.me.username}" in message.text:
         await client.send_chat_action(message.chat.id, enums.ChatAction.TYPING)
         user_id = message.from_user.id    
         user_data = users.find_one({"user": user_id})        
