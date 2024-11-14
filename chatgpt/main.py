@@ -45,8 +45,9 @@ START = """👋 Hey there! I’m an Advanced ChatGPT Bot.
 - **/gpt** - Use GPT by OpenAI.
 - **/gpt4** - Explore GPT-4.
 - **/gemma** - Gemma Ai by Google
-- **/bard** - Real time Ai by Google 
+- **/blackbox** - Real time Ai by Blackbox 
 - **/google** - Gemini by Google 
+- **/img** - image search 
 
 Feel free to ask me anything for free! 
 
