@@ -1,5 +1,6 @@
 from HorridAPI import Mango
 from pyrogram import filters, Client 
+from .paste import create_paste
 
 @Client.on_message(filters.command("blackbox"))
 async def blackbox(client, message):   
@@ -15,4 +16,8 @@ async def blackbox(client, message):
         messages=[{"role": "user", "content": query}]
     )
 
-    await k.edit(response.text)
+    if len(response.text) > 3700:        
+        result = await create_paste(response.text)  
+        await k.edit(result)       
+    else:
+        await k.edit(response.text)   
