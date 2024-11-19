@@ -14,7 +14,7 @@ async def create_paste(message, extension=None):
     try:
         response = requests.post(url=siteurl, data=json.dumps(data), headers=headers)
     except Exception as e:
-        return {"error": str(e)}
+        return 'Long message, Error From pasty.lus.pm site crashed'
     if response.ok:
         response = response.json()
         purl = (
