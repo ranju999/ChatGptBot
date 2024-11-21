@@ -36,27 +36,28 @@ mango = Mango()
 
 START = """👋 Hey there! I’m an Advanced ChatGPT Bot.
 
-**✨ Commands you can use:**
+**🎭 Text Models:**
 
-- **/mode** - Add your preferred mode.
+» `/mode` - Add your preferred mode.
+» `settings` - Change the AI model or add your favorite AI.
 
-- **/settings** - Change the AI model or add your favorite AI.
+You can use this to reply with text and also support replies to images.
 
-- **/llama** - Access Meta AI.
+If the group replies to the bot using text, you can also use commands such as @{botusername} hi or hello @{botusername}.
 
-- **/claude** - Interact with Claude AI.
+**📜 LLM Models:**
 
-- **/gpt** - Use GPT by OpenAI.
+» `/llama` - LLAMA by meta.
+» `/claude` - Better ai claude by Anthropic.
+» `/gpt` - Gpt-3.5-Turbo by Openai.
+» `/gpt4` - GPT-4 by Openai.
+» `/gemma` - Gemma Ai by Google.
+» `/blackbox` - Real time Ai by Blackbox.
+» `/google` - Gemini by Google.
 
-- **/gpt4** - Explore GPT-4.
+**📋 Misc:**
 
-- **/gemma** - Gemma Ai by Google
-
-- **/blackbox** - Real time Ai by Blackbox 
-
-- **/google** - Gemini by Google 
-
-- **/img** - image search 
+» `/img` - image Download.
 
 Feel free to ask me anything for free! 
 
