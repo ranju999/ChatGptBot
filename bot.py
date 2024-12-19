@@ -17,7 +17,7 @@ class Bot(Client):
         await super().start()
         me = await self.get_me()
         print(f"{me.first_name} Iꜱ Sᴛᴀʀᴛᴇᴅ.....✨️")
-        await self.send_message(ADMINS, f"**__{me.first_name}  Iꜱ Sᴛᴀʀᴛᴇᴅ.....✨️😅😅😅__**")
+       # await self.send_message(ADMINS, f"**__{me.first_name}  Iꜱ Sᴛᴀʀᴛᴇᴅ.....✨️😅😅😅__**")
 
 
 Bot().run()
