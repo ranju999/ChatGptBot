@@ -4,16 +4,16 @@ import re
 id_pattern = re.compile(r'^.\d+$')
 
 # bot
-API_ID = int(environ.get('API_ID', ''))
-API_HASH = environ.get('API_HASH', '')
+API_ID = int(environ.get('API_ID', '12380656'))
+API_HASH = environ.get('API_HASH', 'd927c13beaaf5110f25c505b7c071273')
 BOT_TOKEN = environ.get('BOT_TOKEN', '')
 ADMINS = [int(admins) if id_pattern.search(admins) else admins for admins in environ.get('ADMINS', '1867106198').split()]
 
 # bs
-LOG_CHANNEL = int(environ.get('LOG_CHANNEL', '1867106198'))
+LOG_CHANNEL = int(environ.get('LOG_CHANNEL', '2114619001'))
 fsub_eid = environ.get('FSUB_ID')
 FSUB_ID = int(fsub_eid) if fsub_eid and id_pattern.search(fsub_eid) else None
 
 # database
 
-DATABASE_URL = environ.get('DATABASE_URL', '')
+DATABASE_URL = environ.get('DATABASE_URL', 'mongodb+srv://aman727587:aman@cluster0.bk39x.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0')
